@@ -1,2 +1,5 @@
 # TurboAsterix.github.io
-Blog Posts
+
+Practical notes about SAP, macOS, Synology, Proxmox, Amiga and the occasional debugging rabbit hole.
+
+https://turboasterix.github.io
