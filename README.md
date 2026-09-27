@@ -1,5 +1,5 @@
-# TurboAsterix.github.io
+# bitsbystefan.github.io
 
 Practical notes about SAP, macOS, Synology, Proxmox, Amiga and the occasional debugging rabbit hole.
 
-https://turboasterix.github.io
+https://bitsbystefan.github.io
