@@ -1,5 +1,8 @@
 {{ define "main" }}
 <content>
+
+  {{ .Content }}
+
   <h3 style="margin-bottom:0">Latest posts</h3>
   <ul class="blog-posts">
     {{ range (where .Site.RegularPages "Section" "blog").ByDate.Reverse }}
