@@ -1,5 +1,5 @@
 ---
-title: "TurboAsterix // Tech Notes"
+title: "bitsbystefan // Tech Notes"
 ---
 
 Practical notes about SAP development governance, macOS, Synology, Proxmox, homelab projects and the occasional debugging rabbit hole.
