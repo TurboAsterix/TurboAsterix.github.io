@@ -1,6 +1,7 @@
 baseURL = "https://turboasterix.github.io/"
 languageCode = "en-us"
-title = "TurboAsterix Tech Notes"
+title = "TurboAsterix // Tech Notes"
 theme = "hugo-bearblog"
 
 mainSections = ["blog"]
+params.mainSections = ["blog"]

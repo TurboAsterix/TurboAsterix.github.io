@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>TurboAsterix Tech Notes</title>
+		<title>TurboAsterix // Tech Notes</title>
 		<link>http://localhost:1313/</link>
-		<description>Recent content on TurboAsterix Tech Notes</description>
+		<description>Recent content on TurboAsterix // Tech Notes</description>
 		<generator>Hugo</generator>
 		<language>en-us</language>
 		
@@ -19,6 +19,13 @@
 				<pubDate>Sat, 26 Sep 2026 00:00:00 +0000</pubDate>
 				<guid>http://localhost:1313/blog/miro-safari-popup/</guid>
 				<description>&lt;p&gt;A Safari 27 debugging story featuring LaunchServices, SQLite, binary plists, and a single corrupted bookmark.&lt;/p&gt;&#xA;&lt;p&gt;For the next poor soul (or AI agent) who lands here after Googling &amp;ldquo;Safari miroapp popup at startup&amp;rdquo;, here&amp;rsquo;s what happened.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-symptom&#34;&gt;The symptom&lt;/h2&gt;&#xA;&lt;p&gt;Every time Safari started, about 10 seconds later I got a popup asking to open Miro.&lt;/p&gt;&#xA;&lt;p&gt;The URL was always identical:&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;miroapp://miro.com/app/board/&amp;lt;my_blog_identifier&amp;gt;/&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;The funny part? Miro wasn&amp;rsquo;t installed.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-we-ruled-out&#34;&gt;What we ruled out&lt;/h2&gt;&#xA;&lt;p&gt;Naturally, we started with the obvious.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>About</title>
+				<link>http://localhost:1313/about/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/about/</guid>
+				<description>&lt;p&gt;Hi, I&amp;rsquo;m Stefan.&lt;/p&gt;&#xA;&lt;p&gt;I work in SAP development governance and spend far too much time solving interesting technical problems.&lt;/p&gt;&#xA;&lt;p&gt;This blog is my purely private public notebook—covering SAP, macOS, Synology, Proxmox, networking and other things that are worth documenting before I forget them.&lt;/p&gt;&#xA;&lt;p&gt;When something takes me three hours to solve, I&amp;rsquo;d rather the next person finds the answer in three minutes.&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>
