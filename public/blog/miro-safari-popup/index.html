@@ -1,268 +1,184 @@
 <!DOCTYPE html>
-<html lang="en-us">
-
+<html lang="en">
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged | TurboAsterix // Tech Notes</title>
-<meta name="title" content="Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged" />
-<meta name="description" content="A Safari 27 debugging story featuring LaunchServices, SQLite, binary plists, and a single corrupted bookmark.
-For the next poor soul (or AI agent) who lands here after Googling &ldquo;Safari miroapp popup at startup&rdquo;, here&rsquo;s what happened.
-The symptom
-Every time Safari started, about 10 seconds later I got a popup asking to open Miro.
-The URL was always identical:
-miroapp://miro.com/app/board/&lt;my_blog_identifier&gt;/
-The funny part? Miro wasn&rsquo;t installed.
-What we ruled out
-Naturally, we started with the obvious." />
+  
+    <title>Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged :: bitsbystefan // Tech Notes</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A corrupted Safari bookmark kept opening a Miro URL at startup. Here&#39;s how I tracked it down and fixed it." />
 <meta name="keywords" content="" />
 
+  <meta name="robots" content="noodp" />
 
-<meta property="og:url" content="http://localhost:1313/blog/miro-safari-popup/">
-	<meta property="og:site_name" content="TurboAsterix // Tech Notes">
-	<meta property="og:title" content="Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged">
-	<meta property="og:description" content="A Safari 27 debugging story featuring LaunchServices, SQLite, binary plists, and a single corrupted bookmark.
-For the next poor soul (or AI agent) who lands here after Googling “Safari miroapp popup at startup”, here’s what happened.
-The symptom Every time Safari started, about 10 seconds later I got a popup asking to open Miro.
-The URL was always identical:
-miroapp://miro.com/app/board/&lt;my_blog_identifier&gt;/
-The funny part? Miro wasn’t installed.
-What we ruled out Naturally, we started with the obvious.">
-	<meta property="og:locale" content="en_us">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="blog">
-		<meta property="article:published_time" content="2026-09-26T00:00:00+00:00">
-		<meta property="article:modified_time" content="2026-09-26T00:00:00+00:00">
+<link rel="canonical" href="http://localhost:1313/blog/miro-safari-popup/" />
 
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged">
-	<meta name="twitter:description" content="A Safari 27 debugging story featuring LaunchServices, SQLite, binary plists, and a single corrupted bookmark.
-For the next poor soul (or AI agent) who lands here after Googling “Safari miroapp popup at startup”, here’s what happened.
-The symptom Every time Safari started, about 10 seconds later I got a popup asking to open Miro.
-The URL was always identical:
-miroapp://miro.com/app/board/&lt;my_blog_identifier&gt;/
-The funny part? Miro wasn’t installed.
-What we ruled out Naturally, we started with the obvious.">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.c4581949edab7810737609fc5568852bcd908945f14561e366dcd2300a370545.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.a2cc694a9b481f15d41722bffc2cc54eea4c4f74fd9072b0b33253604c22606e.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="http://localhost:1313/terminal.css">
 
 
 
 
-	<meta itemprop="name" content="Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged">
-	<meta itemprop="description" content="A Safari 27 debugging story featuring LaunchServices, SQLite, binary plists, and a single corrupted bookmark.
-For the next poor soul (or AI agent) who lands here after Googling “Safari miroapp popup at startup”, here’s what happened.
-The symptom Every time Safari started, about 10 seconds later I got a popup asking to open Miro.
-The URL was always identical:
-miroapp://miro.com/app/board/&lt;my_blog_identifier&gt;/
-The funny part? Miro wasn’t installed.
-What we ruled out Naturally, we started with the obvious.">
-	<meta itemprop="datePublished" content="2026-09-26T00:00:00+00:00">
-	<meta itemprop="dateModified" content="2026-09-26T00:00:00+00:00">
-	<meta itemprop="wordCount" content="425">
-<meta name="referrer" content="no-referrer-when-downgrade" />
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
 
-  <style>
-  :root {
-    --width: 720px;
-    --font-main: Verdana, sans-serif;
-    --font-secondary: Verdana, sans-serif;
-    --font-scale: 1em;
-    --background-color: #fff;
-    --heading-color: #222;
-    --text-color: #444;
-    --link-color: #3273dc;
-    --visited-color: #8b6fcb;
-    --blockquote-color: #222;
-  }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background-color: #01242e;
-      --heading-color: #eee;
-      --text-color: #ddd;
-      --link-color: #8cc2dd;
-      --visited-color: #8b6fcb;
-      --blockquote-color: #ccc;
-    }
-  }
+<meta name="twitter:card" content="summary" />
 
-  body {
-    font-family: var(--font-secondary);
-    font-size: var(--font-scale);
-    margin: auto;
-    padding: 20px;
-    max-width: var(--width);
-    text-align: left;
-    background-color: var(--background-color);
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.5;
-    color: var(--text-color);
-  }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-main);
-    color: var(--heading-color);
-  }
 
-  a {
-    color: var(--link-color);
-    cursor: pointer;
-    text-decoration: none;
-  }
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged">
+<meta property="og:description" content="A corrupted Safari bookmark kept opening a Miro URL at startup. Here&#39;s how I tracked it down and fixed it." />
+<meta property="og:url" content="http://localhost:1313/blog/miro-safari-popup/" />
+<meta property="og:site_name" content="bitsbystefan // Tech Notes" />
 
-  a:hover {
-    text-decoration: underline;
-  }
 
-  nav a {
-    margin-right: 8px;
-  }
+<meta property="og:image" content="http://localhost:1313/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
 
-  strong,
-  b {
-    color: var(--heading-color);
-  }
 
-  button {
-    margin: 0;
-    cursor: pointer;
-  }
+  <meta property="article:published_time" content="2026-09-26 00:00:00 &#43;0000 UTC" />
 
-  time {
-    font-family: monospace;
-    font-style: normal;
-    font-size: 15px;
-  }
 
-  main {
-    line-height: 1.6;
-  }
 
-  table {
-    width: 100%;
-  }
 
-  hr {
-    border: 0;
-    border-top: 1px dashed;
-  }
 
-  img {
-    max-width: 100%;
-  }
 
-  code {
-    font-family: monospace;
-    padding: 2px;
-    border-radius: 3px;
-  }
 
-  blockquote {
-    border-left: 1px solid #999;
-    color: var(--blockquote-color);
-    padding-left: 20px;
-    font-style: italic;
-  }
 
-  footer {
-    padding: 25px 0;
-    text-align: center;
-  }
 
-  .title:hover {
-    text-decoration: none;
-  }
 
-  .title h1 {
-    font-size: 1.5em;
-  }
 
-  .inline {
-    width: auto !important;
-  }
-
-  .highlight,
-  .code {
-    border-radius: 3px;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    overflow-x: auto;
-  }
-
-  .highlight pre,
-  .code pre {
-    min-width: 100%;
-    width: max-content;
-  }
-
-   
-  ul.blog-posts {
-    list-style-type: none;
-    padding: unset;
-  }
-
-  ul.blog-posts li {
-    display: flex;
-  }
-
-  ul.blog-posts li span {
-    flex: 0 0 130px;
-  }
-
-  ul.blog-posts li a:visited {
-    color: var(--visited-color);
-  }
-
-</style>
 
 </head>
-
 <body>
-  <header><a href="/" class="title">
-  <h2>TurboAsterix // Tech Notes</h2>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    bitsbystefan // Tech Notes
+  </div>
 </a>
-<nav class="topnav">
-  <a href="/">Home</a>
-  <a href="/about/">About</a>
-</nav>
-<nav>
-</nav>
-<style>
-.topnav {
-  display: flex;
-  gap: 1.25rem;
-  margin: 1rem 0 2rem;
-}
-</style></header>
-  <main>
 
-<h1>Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged</h1>
-<p>
-  <i>
-    <time datetime='2026-09-26'>
-      26 Sep, 2026
-    </time>
-  </i>
-</p>
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/blog/">Blog</a></li>
+        
+      
+        
+          <li><a href="/about/">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
 
-<content>
-  <p>A Safari 27 debugging story featuring LaunchServices, SQLite, binary plists, and a single corrupted bookmark.</p>
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/blog/" >Blog</a></li>
+        
+      
+        
+          <li><a href="/about/" >About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/blog/miro-safari-popup/">Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&rsquo;ve Ever Debugged</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2026-09-26</time></div>
+
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p>A Safari 27 debugging story featuring LaunchServices, SQLite, binary plists, and a single corrupted bookmark.</p>
 <p>For the next poor soul (or AI agent) who lands here after Googling &ldquo;Safari miroapp popup at startup&rdquo;, here&rsquo;s what happened.</p>
-<h2 id="the-symptom">The symptom</h2>
+<h2 id="the-symptom">The symptom<a href="#the-symptom" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>Every time Safari started, about 10 seconds later I got a popup asking to open Miro.</p>
 <p>The URL was always identical:</p>
 <p><code>miroapp://miro.com/app/board/&lt;my_blog_identifier&gt;/</code></p>
 <p>The funny part? Miro wasn&rsquo;t installed.</p>
-<h2 id="what-we-ruled-out">What we ruled out</h2>
+<h2 id="what-we-ruled-out">What we ruled out<a href="#what-we-ruled-out" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>Naturally, we started with the obvious.</p>
 <ul>
 <li>
@@ -291,10 +207,10 @@ What we ruled out Naturally, we started with the obvious.">
 </li>
 </ul>
 <p>The popup survived all of it.</p>
-<h2 id="the-rabbit-hole">The rabbit hole</h2>
+<h2 id="the-rabbit-hole">The rabbit hole<a href="#the-rabbit-hole" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>The logs showed Safari itself calling <code>LSOpenFromURLSpec()</code> about 10 seconds after launch.</p>
 <p>That led us into increasingly questionable life choices.</p>
-<h3 id="launchservices">LaunchServices</h3>
+<h3 id="launchservices">LaunchServices<a href="#launchservices" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p><code>lsregister</code> still knew about a <code>miroapp:</code> handler.</p>
 <p>It turned out to be a zombie registration:</p>
 <ul>
@@ -314,7 +230,7 @@ What we ruled out Naturally, we started with the obvious.">
 <p>Apparently I&rsquo;d launched an old Electron version of Miro directly from a DMG years ago.</p>
 <p>We successfully removed the stale LaunchServices registration.</p>
 <p>The popup remained.</p>
-<h3 id="safari-internals">Safari internals</h3>
+<h3 id="safari-internals">Safari internals<a href="#safari-internals" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>Next stop:</p>
 <ul>
 <li>
@@ -338,7 +254,7 @@ What we ruled out Naturally, we started with the obvious.">
 </ul>
 <p>We exported binary plists, searched SQLite blobs, decoded restoration archives, inspected WebKit logs, and watched Safari reconstruct its session in real time.</p>
 <p>Everything looked clean.</p>
-<h2 id="the-breakthrough">The breakthrough</h2>
+<h2 id="the-breakthrough">The breakthrough<a href="#the-breakthrough" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>At some point I remembered something my lead SAP architect taught me:</p>
 <blockquote>
 <p>Not every problem should be solved in the debugger.</p>
@@ -347,7 +263,7 @@ What we ruled out Naturally, we started with the obvious.">
 <p>I deleted the Miro bookmark.</p>
 <p>The popup disappeared.</p>
 <p>Then things became even stranger.</p>
-<h3 id="the-reproducible-bug">The reproducible bug</h3>
+<h3 id="the-reproducible-bug">The reproducible bug<a href="#the-reproducible-bug" class="hanchor" ariaLabel="Anchor">#</a> </h3>
 <p>I recreated the bookmark.</p>
 <ul>
 <li>
@@ -362,7 +278,7 @@ What we ruled out Naturally, we started with the obvious.">
 <p>The bookmark existed twice.</p>
 <p>Finally I removed every bookmark pointing to that Miro board and created a fresh bookmark in a different folder.</p>
 <p>The popup disappeared permanently.</p>
-<h2 id="what-probably-happened">What probably happened</h2>
+<h2 id="what-probably-happened">What probably happened<a href="#what-probably-happened" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <p>My best guess is that Safari had an internally corrupted bookmark object or stale metadata associated with that specific bookmark entry.</p>
 <p>Interestingly:</p>
 <ul>
@@ -376,7 +292,7 @@ What we ruled out Naturally, we started with the obvious.">
 <p>only the original bookmark (and its duplicate/folder context) triggered Safari to launch <code>miroapp://</code> during startup.</p>
 </li>
 </ul>
-<h2 id="lessons-learned">Lessons learned</h2>
+<h2 id="lessons-learned">Lessons learned<a href="#lessons-learned" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <ul>
 <li>
 <p>Safari 27 can trigger <code>miroapp://</code> without Miro being installed.</p>
@@ -397,24 +313,48 @@ What we ruled out Naturally, we started with the obvious.">
 </blockquote>
 <p>Happy debugging.</p>
 
-</content>
+      </div></div>
 
-
-
-<p>
-  
-</p>
-
-  </main>
-  <footer>Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
-<hr>
-
-<footer style="margin-top: 2rem; color: #666;">
-  © 2026 Stefan ·
-  <a href="https://github.com/TurboAsterix">GitHub</a>
-</footer></footer>
+  <p class="back-to-blog"><a href="/blog/">← Back</a></p>
 
   
+    
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2026 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
 </body>
-
 </html>

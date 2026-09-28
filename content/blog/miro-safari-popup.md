@@ -2,6 +2,7 @@
 title: "Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I've Ever Debugged"
 date: 2026-09-26
 draft: false
+description: "A corrupted Safari bookmark kept opening a Miro URL at startup. Here's how I tracked it down and fixed it."
 ---
 A Safari 27 debugging story featuring LaunchServices, SQLite, binary plists, and a single corrupted bookmark.
 

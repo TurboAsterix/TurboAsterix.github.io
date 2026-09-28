@@ -1,7 +1,40 @@
 baseURL = "https://bitsbystefan.github.io/"
 languageCode = "en-us"
 title = "bitsbystefan // Tech Notes"
-theme = "hugo-bearblog"
+theme = "terminal"
 
-mainSections = ["blog"]
-params.mainSections = ["blog"]
+pagination.pagerSize = 10
+
+[markup.highlight]
+noClasses = false
+
+[params]
+contentTypeName = "blog"
+ReadMore = "Read More"
+showMenuItems = 2
+fullWidthTheme = false
+centerTheme = true
+
+[params.logo]
+logoText = "bitsbystefan // Tech Notes"
+logoHomeLink = "/"
+
+[languages.en]
+languageName = "English"
+title = "bitsbystefan // Tech Notes"
+
+[languages.en.params]
+subtitle = "Practical notes on tech, systems, and debugging"
+
+[languages.en.menu]
+  [[languages.en.menu.main]]
+  identifier = "blog"
+  name = "Blog"
+  url = "/blog/"
+  weight = 1
+
+  [[languages.en.menu.main]]
+  identifier = "about"
+  name = "About"
+  url = "/about/"
+  weight = 2
