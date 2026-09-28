@@ -10,9 +10,16 @@
 		
 		
 		
-			<lastBuildDate>Sat, 26 Sep 2026 00:00:00 +0000</lastBuildDate>
+			<lastBuildDate>Mon, 28 Sep 2026 00:00:00 +0000</lastBuildDate>
 		
 			<atom:link href="http://localhost:1313/blog/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Joule vs. Copilot: What’s the Difference?</title>
+				<link>http://localhost:1313/blog/joule-vs-copilot/</link>
+				<pubDate>Mon, 28 Sep 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/blog/joule-vs-copilot/</guid>
+				<description>&lt;h1 id=&#34;joule-vs-github-copilot-where-i-see-the-difference&#34;&gt;Joule vs. GitHub Copilot: Where I See the Difference&lt;/h1&gt;&#xA;&lt;p&gt;After working with both &lt;strong&gt;SAP Joule for Developers&lt;/strong&gt; and &lt;strong&gt;GitHub Copilot&lt;/strong&gt; in an ABAP development environment, I currently see a fairly clear distinction between the two.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Joule feels like a very capable SAP-native development assistant.&lt;/strong&gt; It understands the SAP context well and is particularly useful for things like explaining ABAP code, generating tests, and working with SAP-specific tools such as RAP generators or Custom Fields and Logic.&lt;/p&gt;</description>
+			</item>
 			<item>
 				<title>Safari 27, a Ghost Miro Popup, and the Most Expensive Bookmark I&#39;ve Ever Debugged</title>
 				<link>http://localhost:1313/blog/miro-safari-popup/</link>
